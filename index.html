@@ -1,86 +1,416 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
-        <title>My Blog</title>
+        <meta charset="UTF-8">
+        <title>For school</title>
+        <link href="https://fonts.googleapis.com/css?family=Fredoka+One|Google+Sans+Display:700,500,400|Material+Icons" rel="stylesheet">
         <style>
+            * {
+                box-sizing: border-box;
+            }
             body {
-                background-color: rgb(155, 231, 245);
+                background-color: rgb(255,253,253);
             }
             h1 {
-                color: rgb(127, 255, 133);
-                background-color: rgb(0, 29, 196);
-                text-decoration: underline;
-                font-weight: 2;
-                font-family: "Century";
+                font-family: "Fredoka One", sans-serif;
+                font-weight: normal;
+                padding: 50px;
                 text-align: center;
-                line-height: 1.5em;
+                margin-top:35px;
+                margin-bottom: -30px;
+                letter-spacing: 2px;
+            }
+            nav {
+                font-size: 0;
+                position: relative;
+                z-index: 0;
+                margin: auto;
+                display: table;
+                width: auto;
+            }
+            nav a {
+                padding: 20px;
+                display: inline-block;
+                font-family: "Google Sans Display", sans-serif;
+                text-decoration: none!important;
+                color: #636363;
+                font-weight: 500;
+                font-size: 17px;
+                transition: all 0.3s;
+                text-align: center;
+            }
+            nav a:hover {
+                color: #212121;
+            }
+            nav a.active {
+                color: #f44436;
+                pointer-events: none;
+            }
+            nav hr {
+                position: absolute;
+                bottom: 10px;
+                left: 0;
+                transition: all 0.3s;
+                border: 0;
+                border-bottom: medium solid #f44436;
+            }
+            .search {
+                margin: 30px auto;
+                position: relative;
+                display: block;
+                width: 70%;
+            }
+            .search input {
+                border-radius: 2px;
+                border: 1px solid gainsboro;
+                padding: 11px 75px 10px 50px;
+                width: 100%;
+                outline: none;
+                font-family: "Google Sans Display", sans-serif;
+                font-size: 16px;
+            }
+            .search input:hover {
+                border-color: silver;
+            }
+            .search input:focus {
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+                border-color: #f44436;
+                border-width: medium;
+                padding: 10px 74px 8.5px 48.5px;
+            }
+            .search i.material-icons.search {
+                position: absolute;
+                top: -21px;
+                transform: translateX(10px);
+                z-index: 2;
+                color: #f44436;
+                pointer-events: none;
+            }
+            .padding {
+                width: 70%;
+                padding: 30px 0 80px 0;
+                margin: auto;
+            }
+            .card {
+                padding: 30px;
+                border-radius: 2px;
+                background-color: white;
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+            }
+            .card h3 {
+                margin: 0 0 20px 0;
+                background-color: transparent;
+                color: #212121;
+                padding: 0;
+            }
+            .card h3 a {
+                text-decoration: none!important;
+            }
+            .card p {
+                margin-bottom: 0;
             }
             h2 {
-                font-family: monospace;
-                font-size: 25px;
-                line-height: 1.2 em;
-                background-color: rgb(5, 255, 51);
+                margin-top: 0;
+                font-family: "Google Sans Display", sans-serif;
             }
             h3 {
+                font-family: "Google Sans Display", sans-serif;
+                font-weight: 700;
+                text-transform: uppercase;
+                font-size: 15px;
+                letter-spacing: 4px;
+                padding: 10px 20px;
+                background-color: #f44436;
+                color: white;
+            }
+            a {
+                color: #636363;
+                cursor: pointer;
+                text-decoration: none;
+            }
+            a:hover {
+                color: #f44436;
+                text-decoration: underline;
+            }
+            p, li {
+                font-family: "Google Sans Display", sans-serif;
+                font-size: 15px;
+                line-height: 25px;
+            }
+            .circle {
+                background-color: #f44436;
+                border-radius: 50%;
+                position: fixed;
+                opacity: 0.5;
+                z-index:4;
+            }
+            .strip  {position:fixed;z-index:3;background-color:rgb(255,253,253);}
+            .strip1 {top:0;left:0;width:50px;bottom:0;}
+            .strip2 {top:0;left:0;height:50px;right:0;}
+            .strip3 {top:0;right:0;width:50px;bottom:0;}
+            .strip4 {bottom:0;left:0;height:50px;right:0;}
+            .programs:after {
+                content: "";
+                clear: both;
+                display: table;
+            }
+            .program {
+                width: 49%;
+                padding-top: 49%;
+                margin-right: 1%;
+                border: medium solid gainsboro;
+                border-radius: 2px;
+                float: left;
+                margin-bottom: 1%;
+                overflow: hidden;
+                position: relative;
+            }
+            .program img {
+                position: absolute;
+                top:0;
+                left:0;
+                width: 100%;
+                height: 100%;
+                margin-bottom: -10px;
+            }
+            .program .details {
+                position: absolute;
+                top: 0;
+                transform: translateY(100%);
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.7);
+                color: white;
+                padding: 30px;
+                font-family: "Google Sans Display", sans-serif;
+                font-size: 15px;
+                overflow: auto;
+                transition: all 0.3s;
+            }
+            .program:hover .details {
+                transform: translateY(0px);
+            }
+            button {
+                min-width: 84px;
+                background-color: #f44436;
+                color: white;
+                border: 0;
+                padding: 0 16px;
+                height: 36px;
+                font-size: 15px;
+                font-family: "Google Sans Display", sans-serif;
+                border-radius: 2px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.1s;
+            }
+            button:hover {
+                background-color: #ef5350;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            .badge {
+                width: 19%;
+                margin-right: 1%;
+                position: relative;
+                background-color: white;
+                border: medium solid gainsboro;
+                padding: 20px;
+                float: left;
+                cursor: pointer;
+            }
+            .badge:hover {
+                background-color: #EFEFEF;
+            }
+            .badge:hover img {
+                transform: scale(1.1);
+            }
+            .badge img {
+                width: 100%;
+                display: block;
+                margin: 0 auto;
+                transition: all 0.1s;
+            }
+            #subheading {
                 text-align: center;
+                background-color: rgb(255, 255, 255);
+                color: black;
+                font-family: "Century Gothic", serif;
             }
-            #big {
-                font-size: 30px;
-            }
-            #smaller {
-                font-size: 12px;
-            }
-            #number-one {
-                font-family: "Century Gothic", monospace;
-            }
-            #number-two {
-                font-family: "Jua", monospace;
+            .123 {
+                text-align: center;
+                height: 150px;
             }
         </style>
     </head>
     <body>
-        
-        <h1>Avner's blog</h1>
-
-        <h2>Contents</h2>
-        <ul>
-            <li><a href="#number-one">Great Barrier Reef, Australia</a></li>
-            <li><a href="#number-two">Leaning Tower of Pisa, Italy</a></li>
-        </ul>
-        
-        <h3 id="number-one">Great Barrier Reef, Australia</h3>
-        <h4>Posted on 19/06/2021</h4>
-        
-        <p>I went to the Great Barrier Reef from Australia on Saturday using a boat. It is so <strong id="big">big</strong> you can even see it from <strong>space</strong>! This is a picture of what it looks like.</p>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Coral_Outcrop_Flynn_Reef.jpg/220px-Coral_Outcrop_Flynn_Reef.jpg" width="250">
-        <p>When I went into the ocean, I was shocked at how big and colorful it was. There were <strong>corals</strong> everywhere, and I learned that the coral was home to many types of small creatures. There were fish (which included <em>nemo and dory-looking fish</em>), sharks, jellyfish, and many more. It was such a beautiful sight! Here is a list of the pros:</p>
-        
-        <ul>
-            <li>Many corals</li>
-            <li>Colorful</li>
-            <li>Home to many types of sea animals</li>
-            <li>Big, so there is always a place for you to explore!</li>
-            <li>Beautiful</li>
-        </ul>
-        
-        <p>The only problem was that there was <strong>trash</strong> and <strong>oil</strong> floating around. We took <strong id="big">big</strong> plastic bags from the ocean floor and began to collect <em id="smaller">smaller</em> pieces of trash to put in it. Soon, a portion of the ocean was cleaned. Even though there was still many pieces of junk floating around, we were tired and happy that we could do something to help the reef. Visiting this reef was an <em>unforgettable</em> experience!</p>
-        
-        <h3 id="number-two">Leaning Tower of Pisa, Italy</h3>
-        <h4>Posted on 21/08/2021</h4>
-        
-        <p>This Saturday, I went to Italy by plane. I was wondering what was so <strong>special</strong> about this tower until I arrived there. I instantly noticed that the special thing about this tower is that it was <em>leaning</em>, as if it wanted to topple over. Here is a photo of it:</p>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Leaning_Tower_of_Pisa.jpg/360px-Leaning_Tower_of_Pisa.jpg" width="250">
-        <p>After doing a little research, I learnd that it was not meant to be <em>tilted</em> when it was constructed. After reading that, I was even more curious to find out what made it look like what it was now. Then, I noticed that the soil (foundation) around it was <strong>soft</strong> at one side, so it made the foundation unstable, which caused the tower to <em>lean</em>.</p>
-        
-        <p>I estimated that the tilt was about 4 degrees. Then, a new question popped up in my head. <em>Why is the tower not <strong>falling down</strong>?</em> After even more research, I found that the tower does not fall because its center of gravity has been carefully kept within its base. Here is what is special about this building. </p>
-        
-        <ul>
-            <li>Tilted around 4 degrees</li>
-            <li>Tall and big, so you can take photos of it easily!</li>
-            <li>Explorable</li>
-            <li>Safe, because people have been reducing the lean to prevent it from falling</li>
-            <li>Beautiful</li>
-        </ul>
+        <div class='strip1 strip'></div>
+        <div class='strip2 strip'></div>
+        <div class='strip3 strip'></div>
+        <div class='strip4 strip'></div>
+        <div class='page'>
+            <h1>FreeCodeLesson By <br>Avner</h1>
+            <h3 id="subheading">Free Coding Lessons<br>for everyone</h3>
+            <nav>
+                <a href='javascript:changePage(0)' class='active link'>Home</a>
+                <a href='javascript:changePage(1)' class='link'>About</a>
+                <a href='javascript:changePage(2)' class='link'>Lessons</a>
+                <a href='javascript:changePage(3)' class='link'>Teachers</a>
+                <hr id='slider'>
+            </nav>
+            <div class='search'>
+                <i class='material-icons search'>search</i>
+                <input placeholder="Search"/>
+            </div>
+            <div class='padding'>
+                <div class='card'>
+                    <h3>Coding</h3>
+                    <p>Coding is one of the most important things to learn, especially during modern times. It has become more important, and soon we will have to use it all the time. </p>
+                    <p>Many people think that coding is very hard and complex, but it is actually not. If you learn step-by-step with FreeCodeLesson, coding will be a piece of cake. You will master coding in a short while. Our courses are very cheap. Here are the different computer languages that we offer:</p>
+                    <ul>
+                        <li><b>HTML</b><br>
+                            HTML is used to make the main content in websites. Without HTML, websites will be blank. HTML is also a very famous programming language and is used by many programmers. Therefore, it is essential to learn HTML. HTML has lots of tags and is very hard to learn by yourself, so we offer a variety of HTML courses. Check them in our "Lessons" section! <br><br>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/150px-HTML5_logo_and_wordmark.svg.png"><br>
+                        </li>
+                        <li><b>CSS</b><br>
+                            CSS is used to decorate websites. Without CSS, websites will look boring. Even this website uses CSS for the colors, font, and more. To make your website stand out from the rest, you need to learn CSS. CSS is also tricky to master, so we also offer many courses on this topic. <br><br>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/CSS3_logo_and_wordmark.svg/120px-CSS3_logo_and_wordmark.svg.png"><br>
+                        </li>
+                        <li><b>Python</b><br>
+                            Python is a programming language which is perfect for beginners. It is a very easy computer language, so we recommend this language for people starting programming. Our lessons on Python stand out from the rest because they contain excellent materials specially prepared for you. If you are not a beginner and you want to enhance your knowledge on Python, you can take the Advanced Python course. <br><br> 
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/120px-Python-logo-notext.svg.png"></li><br>
+                        <li><b>And many more!</b></li>
+                    </ul>
+                    <p>We have the best teachers you could ever want. You need to try FreeCodeLesson. Our lessons are carefully prepared so anyone can understand it. You can even try a <b>one month free trial</b>!</p>
+                </div>
+            </div>
+            <div class='padding'>
+                <h3>Why should you choose FreeCodeLesson?</h3>
+                <p>We have the best teachers and lessons you can ever want. Our lessons are carefully created so people can easily understand the material. Our lessons are also very cheap and affordable. Finally, you can get a <b>one month free trial</b>!</p>
+                <br>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/3/39/C_Hello_World_Program.png" height="300">
+            </div>
+            <div class='padding'>
+                <h3 style='margin-top:0;'>Upcoming Lessons</h3>
+                <br>
+                <div class='programs'>
+                    <div class='program'>
+                        <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/150px-HTML5_logo_and_wordmark.svg.png'/>
+                        <div class='details'>
+                            <button onclick='window.open("https://en.wikipedia.org/wiki/HTML5")'>View</button><br><br><br>
+                            Learn HTML from Beginner to Advanced
+                        </div>
+                    </div>
+                    <div class='program'>
+                        <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/CSS3_logo_and_wordmark.svg/180px-CSS3_logo_and_wordmark.svg.png'/>
+                        <div class='details'>
+                            <button onclick='window.open("https://en.wikipedia.org/wiki/CSS")'>View</button><br><br><br>
+                            Learn CSS from Beginner to Advanced
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='padding'>
+                <h3 style='margin-top:0;'>Our teachers</h3>
+                <ul>
+                    <li><b>Avner Maxwell Lim</b> - He is very good at some types of computer languages like HTML, CSS, and more.</li><br>
+                </ul>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script>
+            
+            var currentWidth = 0;
+            var currentLeft = 0;
+            
+            function changePage(index) {
+                window.scroll(0,0);
+                currentWidth = document.getElementsByClassName('link')[index].offsetWidth;
+                currentLeft = document.getElementsByClassName('link')[index].offsetLeft;
+                for ( var i = 0; i < document.getElementsByClassName('link').length; i++ ) {
+                    document.getElementsByClassName('link')[i].classList.remove('active');
+                }
+                document.getElementsByClassName('link')[index].classList.add('active');
+                document.getElementById('slider').style.left = currentLeft+"px";
+                document.getElementById('slider').style.width = currentWidth+"px";
+                for ( var i = 0; i < document.getElementsByClassName('padding').length; i++ ) {
+                    document.getElementsByClassName('padding')[i].style.display = 'none';
+                }
+                document.getElementsByClassName('padding')[index].style.display = 'block';
+            }
+            changePage(0);
+            for ( var i = 0; i < 50; i++ ) {
+                var newCircle = document.createElement('DIV');
+                var randomDimension = Math.floor(Math.random() * 4) + 2;
+                newCircle.style.left = Math.floor(Math.random() * window.innerWidth)+"px";
+                newCircle.style.top = Math.floor(Math.random() * 50)+"px";
+                newCircle.style.width = randomDimension+"px";
+                newCircle.style.height = randomDimension+"px";
+                newCircle.classList.add('circle');
+                document.body.appendChild(newCircle);
+            }
+            for ( var i = 0; i < 50; i++ ) {
+                var newCircle = document.createElement('DIV');
+                var randomDimension = Math.floor(Math.random() * 4) + 2;
+                newCircle.style.left = Math.floor(Math.random() * 50)+"px";
+                newCircle.style.top = Math.floor(Math.random() * window.innerHeight)+"px";
+                newCircle.style.width = randomDimension+"px";
+                newCircle.style.height = randomDimension+"px";
+                newCircle.classList.add('circle');
+                document.body.appendChild(newCircle);
+            }
+            for ( var i = 0; i < 50; i++ ) {
+                var newCircle = document.createElement('DIV');
+                var randomDimension = Math.floor(Math.random() * 4) + 2;
+                newCircle.style.left = Math.floor(Math.random() * window.innerWidth)+"px";
+                newCircle.style.bottom = Math.floor(Math.random() * 50)+"px";
+                newCircle.style.width = randomDimension+"px";
+                newCircle.style.height = randomDimension+"px";
+                newCircle.classList.add('circle');
+                document.body.appendChild(newCircle);
+            }
+            for ( var i = 0; i < 50; i++ ) {
+                var newCircle = document.createElement('DIV');
+                var randomDimension = Math.floor(Math.random() * 4) + 2;
+                newCircle.style.right = Math.floor(Math.random() * 50)+"px";
+                newCircle.style.top = Math.floor(Math.random() * window.innerHeight)+"px";
+                newCircle.style.width = randomDimension+"px";
+                newCircle.style.height = randomDimension+"px";
+                newCircle.classList.add('circle');
+                document.body.appendChild(newCircle);
+            }
+            
+            var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+            var firstDate = new Date();
+            $.getJSON("https://www.khanacademy.org/api/internal/user/profile?username=epophoney13&callback=?", function(data){
+                document.getElementById('pts').innerText = data.points.toLocaleString();
+                document.getElementById('strk').innerText = data.streakLength.toLocaleString();
+                document.getElementById('vid').innerText = data.countVideosCompleted.toLocaleString();
+                var secondDate = new Date(data.dateJoined);
+                var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+                document.getElementById('mem').innerText = diffDays.toLocaleString();
+                document.getElementById('badgeShowcase').innerHTML = "";
+                for ( var i = 0; i < data.publicBadges.length; i++ ) {
+                    document.getElementById('badgeShowcase').innerHTML += "<div class='badge' title='"+data.publicBadges[i].translatedDescription+"'><a href='"+data.publicBadges[i].absoluteUrl+"' target='_blank'><img src='"+data.publicBadges[i].icons.small+"'/></a></div>";
+                }
+            });
+        </script>
+        <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script>
+        var thumbnailX;
+		
+		$.getJSON("https://www.khanacademy.org/api/internal/scratchpads/5401967359524864?callback=?", function(data){
+		    thumbnailX = data.revision.code;
+		});
+		
+        var save = function(){
+            window.top.postMessage(thumbnailX, "https://www.khanacademy.org/");
+        };
+        document.body.onkeydown = function(e) {
+            if (e.keyCode === 27) {
+                save();
+            }
+        };
+    </script>
     </body>
 </html>
