@@ -1,416 +1,1729 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>FreeCodeLesson - Coding for Beginnners by Avner Lim</title>
-        <link href="https://fonts.googleapis.com/css?family=Fredoka+One|Google+Sans+Display:700,500,400|Material+Icons" rel="stylesheet">
-        <style>
-            * {
-                box-sizing: border-box;
+
+<head>
+    <meta charset="utf-8">
+    <title>Science Project</title>
+    <!-- Loads special Web fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Space+Mono:700,400|Open+Sans:700,600,400|Google+Sans+Display:500|Material+Icons|Spirax" rel="stylesheet" />
+    <style>
+        /* All the CSS styling */
+        * {
+            box-sizing: border-box;
+        }
+
+        #blocksA .block {
+            padding: 5px;
+            width: 180px;
+            margin: 10px;
+            background-color: #7986CB;
+            color: white;
+            font-family: "Space Mono", sans-serif;
+            font-weight: 400;
+            font-size: 13px;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        #editorA .block.over {
+            background-color: white !important;
+            color: white !important;
+            border: 2px dashed #EFEFEF;
+        }
+
+        #editorA .block {
+            width: 100%;
+            margin: 0;
+            padding: 5px;
+            font-family: "Space Mono", sans-serif;
+            background-color: #FAFAFA;
+            color: #7986CB;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        #editorA .block:hover {
+            background-color: #EFEFEF;
+        }
+
+        .cell {
+            width: 10%;
+            padding-top: 10%;
+            position: relative;
+            float: left;
+            margin-left: 2.25%;
+            margin-top: 2.25%;
+        }
+
+        .cell img {
+            position: absolute;
+            display: inline-block;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
+        }
+
+        .cell .text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        strong {
+            display: inline-block;
+            margin-top: 15px;
+            width: auto;
+            position: relative;
+        }
+
+        strong::after {
+            content: "";
+            position: absolute;
+            bottom: -7px;
+            width: 100%;
+            background-color: #8BC34A;
+            height: 4px;
+            border-radius: 100px;
+            left: 0;
+            animation: grow 0.7s;
+        }
+
+        .redStrong::after {
+            background-color: #26A69A;
+        }
+
+        .tealStrong::after {
+            background-color: #009688;
+        }
+
+        .blueStrong::after {
+            background-color: #ef5350;
+        }
+
+        @keyframes grow {
+            from {
+                width: 0;
             }
-            body {
-                background-color: rgb(255,253,253);
-            }
-            h1 {
-                font-family: "Fredoka One", sans-serif;
-                font-weight: normal;
-                padding: 50px;
-                text-align: center;
-                margin-top:35px;
-                margin-bottom: -30px;
-                letter-spacing: 2px;
-            }
-            nav {
-                font-size: 0;
-                position: relative;
-                z-index: 0;
-                margin: auto;
-                display: table;
-                width: auto;
-            }
-            nav a {
-                padding: 20px;
-                display: inline-block;
-                font-family: "Google Sans Display", sans-serif;
-                text-decoration: none!important;
-                color: #636363;
-                font-weight: 500;
-                font-size: 17px;
-                transition: all 0.3s;
-                text-align: center;
-            }
-            nav a:hover {
-                color: #212121;
-            }
-            nav a.active {
-                color: #f44436;
-                pointer-events: none;
-            }
-            nav hr {
-                position: absolute;
-                bottom: 10px;
-                left: 0;
-                transition: all 0.3s;
-                border: 0;
-                border-bottom: medium solid #f44436;
-            }
-            .search {
-                margin: 30px auto;
-                position: relative;
-                display: block;
-                width: 70%;
-            }
-            .search input {
-                border-radius: 2px;
-                border: 1px solid gainsboro;
-                padding: 11px 75px 10px 50px;
+
+            to {
                 width: 100%;
-                outline: none;
-                font-family: "Google Sans Display", sans-serif;
-                font-size: 16px;
             }
-            .search input:hover {
-                border-color: silver;
+        }
+
+        .scene {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 50px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: none;
+            transition: all 0.7s;
+            animation: fade 0.7s;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0;
             }
-            .search input:focus {
-                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
-                border-color: #f44436;
-                border-width: medium;
-                padding: 10px 74px 8.5px 48.5px;
+
+            to {
+                opacity: 1;
             }
-            .search i.material-icons.search {
-                position: absolute;
-                top: -21px;
-                transform: translateX(10px);
-                z-index: 2;
-                color: #f44436;
-                pointer-events: none;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Space Mono', sans-serif;
+            margin: 0 0 35px 0;
+        }
+
+        p {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 16px;
+        }
+
+        b {
+            font-weight: 600;
+        }
+
+        .container {
+            position: relative;
+            display: block;
+        }
+
+        .container::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        .column {
+            float: left;
+            padding: 0 7px;
+        }
+
+        .c3 {
+            width: 33%;
+        }
+
+        .fillBg {
+            border-radius: 2px;
+            background-color: #EFEFEF;
+            padding: 10px;
+            height: 100px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            background-size: 100%;
+            background-position: center;
+            transition: all 0.3s;
+        }
+
+        .fillBg p {
+            margin: 0;
+            color: white;
+        }
+
+        .fillBg p b {
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .fillBg .fillText {
+            position: absolute;
+            bottom: -16px;
+            left: 13px;
+            pointer-events: none;
+            transition: all 0.3s;
+            z-index: 2;
+        }
+
+        .fillBg:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: scale(1.05);
+        }
+
+        .fillBg::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.6));
+            background-image: -webikt-linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.6));
+            z-index: 1;
+            transition: all 0.3s;
+        }
+
+        .fillBg::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8));
+            background-image: -webikt-linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8));
+            z-index: 1;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .fillBg:hover::before {
+            opacity: 1;
+        }
+
+        .fillBg:hover::after {
+            opacity: 0;
+        }
+
+        .fillBg:hover .fillText {
+            bottom: 10px;
+        }
+
+        .text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%)translateY(-50%);
+            width: 100%;
+        }
+
+        #stuff1 {
+            animation: floatIn 1s;
+            position: relative;
+        }
+
+        @keyframes floatIn {
+            0% {
+                transform: translateX(-50px);
+                opacity: 0;
             }
-            .padding {
-                width: 70%;
-                padding: 30px 0 80px 0;
-                margin: auto;
+
+            10% {
+                transform: translateX(-50px);
+                opacity: 0;
             }
-            .card {
-                padding: 30px;
-                border-radius: 2px;
-                background-color: white;
-                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+
+            100% {
+                transform: translateX(0);
+                opacity: 1;
             }
-            .card h3 {
-                margin: 0 0 20px 0;
-                background-color: transparent;
-                color: #212121;
-                padding: 0;
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 100%;
+            opacity: 0.02;
+            animation: infinite;
+        }
+
+        #background1 {
+            z-index: -1;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            transition: all 0.5s;
+        }
+
+        @keyframes circleAnimation1 {
+            0% {
+                opacity: 0.05;
             }
-            .card h3 a {
-                text-decoration: none!important;
+
+            40% {
+                transform: translateX(50px)translateY(100px);
+                opacity: 0.2;
             }
-            .card p {
-                margin-bottom: 0;
+
+            80% {
+                transform: translateX(-25px)translateY(30px);
+                opacity: 0.1;
             }
-            h2 {
-                margin-top: 0;
-                font-family: "Google Sans Display", sans-serif;
+
+            100% {
+                transform: translateX(0px)translateY(0px);
+                opacity: 0.05;
             }
-            h3 {
-                font-family: "Google Sans Display", sans-serif;
-                font-weight: 700;
-                text-transform: uppercase;
-                font-size: 15px;
-                letter-spacing: 4px;
-                padding: 10px 20px;
-                background-color: #f44436;
-                color: white;
+        }
+
+        @keyframes circleAnimation2 {
+            0% {
+                opacity: 0.1;
             }
-            a {
-                color: #636363;
-                cursor: pointer;
-                text-decoration: none;
+
+            40% {
+                transform: translateX(-50px)translateY(40px);
+                opacity: 0.15;
             }
-            a:hover {
-                color: #f44436;
-                text-decoration: underline;
+
+            80% {
+                transform: translateX(75px)translateY(-30px);
+                opacity: 0.25;
             }
-            p, li {
-                font-family: "Google Sans Display", sans-serif;
-                font-size: 15px;
-                line-height: 25px;
+
+            100% {
+                transform: translateX(0px)translateY(0px);
+                opacity: 0.1;
             }
-            .circle {
-                background-color: #f44436;
-                border-radius: 50%;
-                position: fixed;
-                opacity: 0.5;
-                z-index:4;
+        }
+
+        #loader {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        #loader .bar1 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 12.5%;
+            background-color: #66BB6A;
+            animation: barIn 0.7s forwards;
+        }
+
+        #loader .bar2 {
+            position: absolute;
+            top: 12.5%;
+            right: 0;
+            width: 0;
+            height: 12.5%;
+            background-color: #66BB6A;
+            animation: barIn 0.7s 0.1s forwards;
+        }
+
+        #loader .bar3 {
+            position: absolute;
+            top: 25%;
+            left: 0;
+            width: 0;
+            height: 12.5%;
+            background-color: #66BB6A;
+            animation: barIn 0.7s 0.2s forwards;
+        }
+
+        #loader .bar4 {
+            position: absolute;
+            top: 37.5%;
+            right: 0;
+            width: 0;
+            height: 12.5%;
+            background-color: #66BB6A;
+            animation: barIn 0.7s 0.3s forwards;
+        }
+
+        #loader .bar5 {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 0;
+            height: 12.5%;
+            background-color: #66BB6A;
+            animation: barIn 0.7s 0.4s forwards;
+        }
+
+        #loader .bar6 {
+            position: absolute;
+            top: 62.5%;
+            right: 0;
+            width: 0;
+            height: 12.5%;
+            background-color: #66BB6A;
+            animation: barIn 0.7s 0.5s forwards;
+        }
+
+        #loader .bar7 {
+            position: absolute;
+            top: 75%;
+            left: 0;
+            width: 0;
+            height: 12.5%;
+            background-color: #66BB6A;
+            animation: barIn 0.7s 0.6s forwards;
+        }
+
+        #loader .bar8 {
+            position: absolute;
+            top: 87.5%;
+            right: 0;
+            width: 0;
+            height: 12.5%;
+            background-color: #66BB6A;
+            animation: barIn 0.7s 0.7s forwards;
+        }
+
+        #loader .loading {
+            opacity: 0;
+            animation: leftIn 0.5s 0.6s forwards;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%)translateY(-50%);
+            color: white;
+            z-index: 10;
+            text-align: center;
+            width: 50%;
+            margin: 0;
+        }
+
+        @keyframes leftIn {
+            from {
+                margin-left: -70px;
+                opacity: 0;
             }
-            .strip  {position:fixed;z-index:3;background-color:rgb(255,253,253);}
-            .strip1 {top:0;left:0;width:50px;bottom:0;}
-            .strip2 {top:0;left:0;height:50px;right:0;}
-            .strip3 {top:0;right:0;width:50px;bottom:0;}
-            .strip4 {bottom:0;left:0;height:50px;right:0;}
-            .programs:after {
-                content: "";
-                clear: both;
-                display: table;
+
+            to {
+                margin-left: 0;
+                opacity: 1;
             }
-            .program {
-                width: 49%;
-                padding-top: 49%;
-                margin-right: 1%;
-                border: medium solid gainsboro;
-                border-radius: 2px;
-                float: left;
-                margin-bottom: 1%;
-                overflow: hidden;
-                position: relative;
+        }
+
+        @keyframes barIn {
+            from {
+                width: 0;
             }
-            .program img {
-                position: absolute;
-                top:0;
-                left:0;
+
+            to {
                 width: 100%;
-                height: 100%;
-                margin-bottom: -10px;
             }
-            .program .details {
-                position: absolute;
-                top: 0;
-                transform: translateY(100%);
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background-color: rgba(0, 0, 0, 0.7);
-                color: white;
-                padding: 30px;
-                font-family: "Google Sans Display", sans-serif;
-                font-size: 15px;
-                overflow: auto;
-                transition: all 0.3s;
+        }
+
+        h2 {
+            font-family: "Open Sans", sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+        .heading {
+            padding: 50px;
+        }
+
+        .homeBtn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+        .homeBtn:hover {
+            color: white;
+            text-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        blockquote {
+            background-color: #EFEFEF;
+            margin: 0;
+            padding: 20px 20px 20px 55px;
+            border-radius: 2px;
+            border-left: 5px solid grey;
+            font-family: "Open Sans", sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 25px;
+            position: relative;
+        }
+
+        blockquote::before {
+            content: open-quote;
+            position: absolute;
+            top: 30px;
+            left: 15px;
+            font-size: 64px;
+            transform: rotateY(180deg);
+            font-family: "Spirax", sans-serif;
+            color: grey;
+        }
+
+        blockquote::after {
+            content: close-quote;
+            font-size: 20px;
+            font-weight: bold;
+            font-family: "Spirax", sans-serif;
+            color: grey;
+        }
+
+        h3 {
+            font-family: "Open Sans", sans-serif;
+            font-size: 20px;
+        }
+
+        p.label {
+            font-size: 10px !important;
+            font-weight: 600;
+        }
+
+        .article p {
+            font-size: 13px;
+            line-height: 25px;
+        }
+
+        .hoverIcon {
+            color: grey;
+            transition: all 0.3s;
+            cursor: pointer;
+            transform: translateX(10px);
+        }
+
+        .hoverIcon:hover {
+            color: #212121;
+            transform: translateX(0px);
+        }
+
+        .sceneBg {
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+
+        .sceneBg::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(top, rgb(255, 255, 255, 0.3), rgb(255, 255, 255, 1));
+            background: -webkit-linear-gradient(top, rgb(255, 255, 255, 0.6), rgb(255, 255, 255, 0.9), rgb(255, 255, 255, 1));
+        }
+
+        .progBtn {
+            padding: 0 12px;
+            height: 27.5px;
+            border-radius: 2px;
+            border: 2px solid #424242;
+            color: #424242;
+            background-color: transparent;
+            font-size: 13px;
+            font-family: sans-serif;
+            font-weight: bold;
+            position: absolute;
+            top: 19px;
+            left: 140px;
+            filter: blur(0.4px);
+            cursor: pointer;
+            transition: all 0s 0.05s;
+            outline: none;
+        }
+
+        .progBtn:hover {
+            background-color: #212121;
+            color: white;
+        }
+
+        .scene.dark {
+            background-color: #212121;
+        }
+
+        .scene.dark h1,
+        .scene.dark h2,
+        .scene.dark h3,
+        .scene.dark h4,
+        .scene.dark h5,
+        .scene.dark h6,
+        .scene.dark p,
+        .scene.dark li,
+        .scene.dark a {
+            color: white;
+        }
+
+        .scene.dark i.material-icons {
+            color: white !important;
+        }
+
+        .progress {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%)translateY(-50%);
+            width: 65%;
+            height: 10px;
+            background-color: white;
+            border-radius: 50px;
+            font-family: "Open Sans", sans-serif;
+            font-size: 13px;
+            color: white;
+            font-weight: 700;
+        }
+
+        .progressInner {
+            position: absolute;
+            top: 3px;
+            left: 4px;
+            bottom: 3px;
+            background-color: #03A9F4;
+            border-radius: 50px;
+            width: 0;
+            transition: all 0.7s;
+            animation: loadingInterim 1.5s infinite;
+        }
+
+        @keyframes loadingInterim {
+            0% {
+                width: 0;
+                left: 4px;
             }
-            .program:hover .details {
-                transform: translateY(0px);
+
+            50% {
+                width: 97.5%;
+                left: 4px;
             }
-            button {
-                min-width: 84px;
-                background-color: #f44436;
-                color: white;
-                border: 0;
-                padding: 0 16px;
-                height: 36px;
-                font-size: 15px;
-                font-family: "Google Sans Display", sans-serif;
-                border-radius: 2px;
-                font-weight: 500;
-                cursor: pointer;
-                transition: all 0.1s;
+
+            100% {
+                width: 0;
+                left: 100%;
             }
-            button:hover {
-                background-color: #ef5350;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            }
-            .badge {
-                width: 19%;
-                margin-right: 1%;
-                position: relative;
-                background-color: white;
-                border: medium solid gainsboro;
-                padding: 20px;
-                float: left;
-                cursor: pointer;
-            }
-            .badge:hover {
-                background-color: #EFEFEF;
-            }
-            .badge:hover img {
-                transform: scale(1.1);
-            }
-            .badge img {
-                width: 100%;
-                display: block;
-                margin: 0 auto;
-                transition: all 0.1s;
-            }
-            #subheading {
-                text-align: center;
-                background-color: rgb(255, 255, 255);
-                color: black;
-                font-family: "Century Gothic", serif;
-            }
-            .123 {
-                text-align: center;
-                height: 150px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class='strip1 strip'></div>
-        <div class='strip2 strip'></div>
-        <div class='strip3 strip'></div>
-        <div class='strip4 strip'></div>
-        <div class='page'>
-            <h1>FreeCodeLesson</h1>
-            <h3 id="subheading">Coding for Beginners<br>by Avner Lim</h3>
-            <nav>
-                <a href='javascript:changePage(0)' class='active link'>Home</a>
-                <a href='javascript:changePage(1)' class='link'>About</a>
-                <a href='javascript:changePage(2)' class='link'>Lessons</a>
-                <a href='javascript:changePage(3)' class='link'>Teachers</a>
-                <hr id='slider'>
-            </nav>
-            <div class='search'>
-                <i class='material-icons search'>search</i>
-                <input placeholder="Search"/>
-            </div>
-            <div class='padding'>
-                <div class='card'>
-                    <h3>Introduction</h3>
-                    <p>Coding is one of the most important things to learn, especially during modern times. It has become more important, and soon we will have to use it all the time. </p>
-                    <p>Many people think that coding is very hard and complex, but it is actually not. If you learn step-by-step with FreeCodeLesson, coding will be a piece of cake. You will master coding in a short while. Our courses are free of charge. All youneed to do is to commit and practice. Remember that practice makes perfect. Here are the different computer languages that we offer:</p>
-                    <ul>
-                        <li><b>HTML</b><br>
-                            HTML is used to make the main content in websites. Without HTML, websites will be blank. HTML is also a very famous programming language and is used by many programmers. Therefore, it is essential to learn HTML. HTML has lots of tags and is very hard to learn by yourself, so we offer a variety of HTML courses. Check them in our "Lessons" section! <br><br>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/150px-HTML5_logo_and_wordmark.svg.png"><br>
-                        </li>
-                        <li><b>CSS</b><br>
-                            CSS is used to decorate websites. Without CSS, websites will look boring. Even this website uses CSS for the colors, font, and more. To make your website stand out from the rest, you need to learn CSS. CSS is also tricky to master, so we also offer many courses on this topic. <br><br>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/CSS3_logo_and_wordmark.svg/120px-CSS3_logo_and_wordmark.svg.png"><br>
-                        </li>
-                        <li><b>Python</b><br>
-                            Python is a programming language which is perfect for beginners. It is a very easy computer language, so we recommend this language for people starting programming. Our lessons on Python stand out from the rest because they contain excellent materials specially prepared for you. If you are not a beginner and you want to enhance your knowledge on Python, you can take the Advanced Python course. <br><br> 
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/120px-Python-logo-notext.svg.png"></li><br>
-                        <li><b>And many more!</b></li>
-                    </ul>
-                    <p>We have the best teachers you could ever want. You need to try FreeCodeLesson. Our lessons are carefully prepared so anyone can understand it.</p>
+        }
+
+        .scene.game {
+            padding: 0;
+        }
+
+        .gameHeader {
+            width: 100%;
+            height: 36px;
+            background-color: #3949AB;
+            font-size: 0;
+        }
+
+        .gameHeader a {
+            font-family: "Open Sans";
+            font-size: 13px;
+            line-height: 36px;
+            color: rgb(255, 255, 255, 0.7);
+            padding: 0 20px;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .gameHeader a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .gameHeader i.material-icons {
+            font-size: 18px;
+            position: relative;
+            top: 3.5px;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+        }
+
+        .modal .body {
+            overflow: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            height: 200px;
+            background-color: white;
+            margin-left: -200px;
+            margin-top: -100px;
+            border-radius: 2px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            padding: 20px 50px 20px 20px;
+        }
+
+        .modal i.material-icons {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            padding: 5px;
+            color: #636363;
+            cursor: pointer;
+        }
+
+        .modal i.material-icons:hover {
+            color: #212121;
+        }
+
+        .modal .body h2 {
+            margin: 0;
+        }
+
+        button.normal {
+            padding: 0 20px;
+            height: 42px;
+            background-color: #00BCD4;
+            font-family: "Open Sans", sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: white;
+            border-radius: 2px;
+            margin-right: 10px;
+            border: 0;
+            cursor: pointer;
+        }
+
+        button.normal:hover {
+            background-color: #0097A7;
+        }
+
+        .block.focused {
+            border: 2px dashed lightgrey;
+            padding: 3px !important;
+        }
+        #saveScrn {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- All the HTML scene displays -->
+    <div class='scene' style="z-index:5;background:#8BC34A;overflow:hidden;">
+        <div class='progress' id="outer">
+            <div class='progressInner' id="inner"></div>
+            <br>Loading...
+        </div>
+    </div>
+    <div class='scene'>
+        <div id='background1'></div>
+        <h1 id='programmersHeading' class='center' style='margin-bottom:0;position:absolute;left:50%;top:50%;transform:translateX(-50%)translateY(-50%);width:100%;transition: all 0.3s;'></h1>
+        <p id='stuff1' class='center' style='margin-top:80px;display:none;font-size:18px;'>Land pollution is a global problem.<br><strong>We need to do something now.</strong></p>
+        <br>
+        <div class='container' id='menu' style='display:none;margin:10px auto 0 auto;animation:floatIn 1s;'>
+            <div class='column c3'>
+                <div class='fillBg' style='background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Litter.JPG/150px-Litter.JPG);background-color:#E3F2FD;' onclick="sceneSpecial(2, '#039BE5')">
+                    <div class='fillText'>
+                        <p><b>Introduction</b><br><span style='font-size:13px;' class='fillDesc'>What is it?</span></p>
+                    </div>
                 </div>
             </div>
-            <div class='padding'>
-                <h3>Why should you choose FreeCodeLesson?</h3>
-                <p>We have the best teachers and lessons you can ever want. Our lessons are carefully created so people can easily understand the material. Our lessons are free of charge!</p>
-                <br>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/3/39/C_Hello_World_Program.png" height="300">
-            </div>
-            <div class='padding'>
-                <h3 style='margin-top:0;'>Upcoming Lessons</h3>
-                <br>
-                <div class='programs'>
-                    <div class='program'>
-                        <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/150px-HTML5_logo_and_wordmark.svg.png'/>
-                        <div class='details'>
-                            <button onclick='window.open("https://en.wikipedia.org/wiki/HTML5")'>View</button><br><br><br>
-                            Learn HTML from Beginner to Advanced
-                        </div>
-                    </div>
-                    <div class='program'>
-                        <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/CSS3_logo_and_wordmark.svg/180px-CSS3_logo_and_wordmark.svg.png'/>
-                        <div class='details'>
-                            <button onclick='window.open("https://en.wikipedia.org/wiki/CSS")'>View</button><br><br><br>
-                            Learn CSS from Beginner to Advanced
-                        </div>
+            <div class='column c3'>
+                <div class='fillBg' style='background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Slum_and_dirty_river.jpg/150px-Slum_and_dirty_river.jpg?20070915161254)' onclick="sceneSpecial(3, '#ef5350')">
+                    <div class='fillText'>
+                        <p><b>Information</b><br><span style='font-size:13px;' class='fillDesc'>All you need to know</span></p>
                     </div>
                 </div>
             </div>
-            <div class='padding'>
-                <h3 style='margin-top:0;'>Our teachers</h3>
-                <ul>
-                    <li><b>Avner Maxwell Lim</b> - He is very good at HTML, CSS, Python, C, C++, Javascript, and SQL. He has many years of experience. He has a Phd from MIT in coding.</li><br>
-                </ul>
+            <div class='column c3'>
+                <div class='fillBg' style='background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/WMCON17_Post-Survey_Questionnaire.pdf/page1-150px-WMCON17_Post-Survey_Questionnaire.pdf.jpg?20170418145445);' onclick="sceneSpecial(4, '#26A69A')">
+                    <div class='fillText'>
+                        <p><b>Survey</b><br><span style='font-size:13px;' class='fillDesc'>My survey results</span></p>
+                    </div>
+                </div>
             </div>
         </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-        <script>
+    </div>
+    
+    <div class='scene' style='padding: 0;'>
+        <div class='heading' style='background-color: #039BE5;'>
+            <i class='material-icons homeBtn' onclick="sceneSpecial(1, '#8BC34A')">home</i>
+            <h1 style='color:white;margin-bottom:15px;'>Introduction</h1>
+            <p style='margin: 0;color:white;font-weight:600;'>What is land pollution?</p>
+        </div>
+        <div style='padding:50px;background-color:#fafafa;'><h3>The major types of pollution</h3>
+            <p style='font-size:13px;font-weight:700;color:grey'>Air, water, and land pollution.</p>
+            <br>
+            <div class='article'>
+                <p>There are three main types of pollution: air pollution, water pollution, and land pollution. This website is mainly about land pollution, but there will be basic information about the other two types of pollution below.</p>
+                <br>
+                <p><b>Air pollution</b></p>
+                <p>Air pollution is caused by the release of greenhouse gases like carbon dioxide into the air. It can also be caused by volcanic eruptions. However, we release a lot more greenhouse gases in the air than volcanoes, mostly by burning greenhouse gases in factories. </p>
+                <p>This type of pollution can be very harmful for us, increasing the risk of heart diseases, lung cancer and some types of respiratory infections. It also creates an effect called <b>the greenhouse effect</b>, which makes the earth hotter. The result of a rise in temperature will lead to many problems.</p>
+                <br>
+                <p><b>Water pollution</b></p>
+                <p>Water pollution is the contamination of water. If polluted water is consumed, it can cause many health problems because it contains waste like plastic, bacteria, and other microorganisms. When fish consume plastic, they can get sick and die. However, if we eat the fish, we can also eat the plastic if we are not careful enough. </p>
+                <p>There are many causes of water pollution. First, oil and natural gas can enter rivers and lakes from underground locations, polluting the water. We can also contribute to water pollution by dumping waste into the ocean. Sometimes oil can spill from boats in an accident into the water.</p>
+                <br>
+            </div>
+            <h3>Introduction to land pollution</h3>
+            <br>
+            <div class='article'>
+                <p>Land pollution is the contamination of soil with dangerous chemicals. Sometimes, plants can absorb fertilizers in the air. If these plants are eaten, the dangerous chemicals in fertilizers can harm our body in many different ways.</p>
+                <br>
+                <p><b>The story of DDT</b></p>
+                <p>DDT (also called dicholorodiphenyltrichloroethane) is a powerful pesticide that kills pests that destroy plants and spread diseases. However, this pesticide can be a big threat to the environment.</p>
+                <p>When DDT is sprayed on the plants, some of it can get washed into rivers by the rain. Sometimes, the animals that live there eat the DDT. However, the amount of DDT swallowed is so small that these animals won't be harmed. The problem with DDT is that it does not break down inside the animal's bodies, but is stored inside them. </p>
+                <p>Soon, other animals like small fish eat the animals containing DDT, and bigger fish eat these small fish. Fortunately, the amount of DDT consumed is not enough to harm them. Herons eat lots of these big fish. Now the amoutn of DDT inside the heron can affect the strength of the eggshells, so the population of herons in the world decreases. </p>
+                <p>The good news is that now DDT is banned on mnay countries, but some countries still use it as it is the best way to slow down the spread of malaria, a disease carried by mosquitoes. </p>
+                <br>
+            </div>
+            <p style='font-size:12px;'>Source: National Geographic and Amazing Science Book 7 Chapter 3.9</p>
+        </div>
+    </div>
+    <div class='scene' style='padding:0;'>
+        <div class='heading' style='background-color: #ef5350;'>
+            <i class='material-icons homeBtn' onclick="sceneSpecial(1, '#8BC34A')">home</i>
+            <h1 style='color:white;margin-bottom:15px;'>Information</h1>
+            <p style='margin: 0;color:white;font-weight:600;'>Causes, effects, and what you can do.</p>
+        </div>
+        <div style='padding:50px;background-color:#FAFAFA;'>
+            <h2 style='margin: 0;'>Causes</h2>
+            <p><b>Littering, mining, and more.</b></p>
+            <div class='container' style='margin:20px 0 0 0;'>
+                <div class='column c3'>
+                    <div class='fillBg' style='background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Littering_in_Stockholm.jpg/330px-Littering_in_Stockholm.jpg);background-color:#E3F2FD;' onclick="changeScene(5)">
+                        <div class='fillText'>
+                            <p><b>Littering</b><br><span style='font-size:13px;' class='fillDesc'>Throwing trash</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class='column c3'>
+                    <div class='fillBg' style='background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Siilinj%C3%A4rvi_S%C3%A4rkij%C3%A4rvi_pit.jpg/330px-Siilinj%C3%A4rvi_S%C3%A4rkij%C3%A4rvi_pit.jpg);background-color:#ffcdd2;' onclick="changeScene(6)">
+                        <div class='fillText'>
+                            <p><b>Mining</b><br><span style='font-size:13px;' class='fillDesc'>Extracting minerals</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class='column c3'>
+                    <div class='fillBg' style='background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Crop_spraying_near_St_Mary_Bourne_-_geograph.org.uk_-_392462.jpg/330px-Crop_spraying_near_St_Mary_Bourne_-_geograph.org.uk_-_392462.jpg);' onclick="changeScene(7)">
+                        <div class='fillText'>
+                            <p><b>Agriculture</b><br><span style='font-size:13px;' class='fillDesc'>Fertilizers and more</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <h2>Effects</h2>
+            <p>What will land pollution do to our environment?</p>
+            <div class='container' style='margin:20px 0 0 0;'>
+                <div class='column c3'>
+                    <div class='fillBg' style='background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Bales_of_PET_bottles_stacked.jpg/330px-Bales_of_PET_bottles_stacked.jpg);background-color:white;' onclick="changeScene(8)">
+                        <div class='fillText'>
+                            <p><b>Plastic</b><br><span style='font-size:13px;' class='fillDesc'>Plastic everywhere</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class='column c3'>
+                    <div class='fillBg' style='background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Sea_turtle_entangled_in_a_ghost_net.jpg/330px-Sea_turtle_entangled_in_a_ghost_net.jpg?20120428100726);background-color:#DCEDC8;' onclick="changeScene(9)">
+                        <div class='fillText'>
+                            <p><b>Sick animals</b><br><span style='font-size:13px;' class='fillDesc'>Eating plastic</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class='column c3'>
+                    <div class='fillBg' style='background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Soilcontam.JPG/330px-Soilcontam.JPG);' onclick="changeScene(10)">
+                        <div class='fillText'>
+                            <p><b>Polluted land</b><br><span style='font-size:13px;' class='fillDesc'>Dirty water and soil</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <h2>Solution</h2>
+            <p>What can we do?</p>
+            <div class='container' style='margin:20px 0 0 0;'>
+                <div class='column c3'>
+                    <div class='fillBg' style='background-image:url(https://upload.wikimedia.org/wikipedia/commons/a/af/Reduce_Reuse_Recycle.jpg?20170803115553);background-color:white;' onclick="changeScene(12)">
+                        <div class='fillText'>
+                            <p><b>The 3Rs</b><br><span style='font-size:13px;' class='fillDesc'>Individual action</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class='column c3'>
+                    <div class='fillBg' style='background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/NewLogoGET123.png/150px-NewLogoGET123.png);background-color:white;' onclick="changeScene(13)">
+                        <div class='fillText'>
+                            <p><b>Organizations</b><br><span style='font-size:13px;' class='fillDesc'>Working together</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class='column c3'>
+                    <div class='fillBg' style='background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Team_Trees_circle_logo.svg/150px-Team_Trees_circle_logo.svg.png?20191102081616);background-repeat:no-repeat;background-size:80%;background-position:15px 25px;background-color:white;' onclick="changeScene(14)">
+                        <div class='fillText'>
+                            <p><b>Awareness</b><br><span style='font-size:13px;' class='fillDesc'>Spread awareness</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <p style='font-size:12px;'>Pictures from Wikipedia, Information from various sources (mostly Wikipedia) on the internet and Caring for Our Planet by Oxford Read and Discover</p>
+        </div>
+    </div>
+    <div class='scene' style='padding: 0;'>
+        <div class='heading' style='background-color: #26A69A;'>
+            <i class='material-icons homeBtn' onclick="sceneSpecial(1, '#8BC34A')">home</i>
+            <h1 style='color:white;margin-bottom:15px;'>Survey</h1>
+            <p style='margin: 0;color:white;font-weight:600;'>A survey about land pollution</p>
+        </div>
+        <div style='padding:50px;background-color:#fafafa;'><h3>Questions</h3>
+            <br>
+            <div class='article'>
+                <p>I made 5 questions for the survey. These questions are:</p>
+                <p><b>1. </b>Out of all the options, which one do you think influences land pollution the most? Choose <b>one</b> option.</p>
+                <ul style='font-family:"Open Sans", sans-serif;'>
+                    <li>Mining</li>
+                    <li>Littering</li>
+                    <li>Agriculture</li>
+                </ul>
+                <p><b>2. </b>Do you agree that cotton bags are a great alternative to plastic bags? (1-5, 1 - Strongly disagree, 5 - Strongly agree)</p>
+                <p><b>3. </b>How severe is the current condition of land pollution? (1-10, 1 - Not bad at all, 10 - Very severe, needs to be fixed now)</p>
+                <p><b>4. </b>Do you think that land pollution is the worst type of pollution? Choose <b>one</b> option.</p>
+                <ul style='font-family:"Open Sans", sans-serif;'>
+                    <li>Yes</li>
+                    <li>No</li>
+                </ul>
+                <p><b>5. </b>What would you do to stop land pollution? Support your answer with reasons.</p>
+                <br>
+            </div>
+            <h3>Results</h3>
+            <br>
             
-            var currentWidth = 0;
-            var currentLeft = 0;
-            
-            function changePage(index) {
-                window.scroll(0,0);
-                currentWidth = document.getElementsByClassName('link')[index].offsetWidth;
-                currentLeft = document.getElementsByClassName('link')[index].offsetLeft;
-                for ( var i = 0; i < document.getElementsByClassName('link').length; i++ ) {
-                    document.getElementsByClassName('link')[i].classList.remove('active');
-                }
-                document.getElementsByClassName('link')[index].classList.add('active');
-                document.getElementById('slider').style.left = currentLeft+"px";
-                document.getElementById('slider').style.width = currentWidth+"px";
-                for ( var i = 0; i < document.getElementsByClassName('padding').length; i++ ) {
-                    document.getElementsByClassName('padding')[i].style.display = 'none';
-                }
-                document.getElementsByClassName('padding')[index].style.display = 'block';
-            }
-            changePage(0);
-            for ( var i = 0; i < 50; i++ ) {
-                var newCircle = document.createElement('DIV');
-                var randomDimension = Math.floor(Math.random() * 4) + 2;
-                newCircle.style.left = Math.floor(Math.random() * window.innerWidth)+"px";
-                newCircle.style.top = Math.floor(Math.random() * 50)+"px";
-                newCircle.style.width = randomDimension+"px";
-                newCircle.style.height = randomDimension+"px";
-                newCircle.classList.add('circle');
-                document.body.appendChild(newCircle);
-            }
-            for ( var i = 0; i < 50; i++ ) {
-                var newCircle = document.createElement('DIV');
-                var randomDimension = Math.floor(Math.random() * 4) + 2;
-                newCircle.style.left = Math.floor(Math.random() * 50)+"px";
-                newCircle.style.top = Math.floor(Math.random() * window.innerHeight)+"px";
-                newCircle.style.width = randomDimension+"px";
-                newCircle.style.height = randomDimension+"px";
-                newCircle.classList.add('circle');
-                document.body.appendChild(newCircle);
-            }
-            for ( var i = 0; i < 50; i++ ) {
-                var newCircle = document.createElement('DIV');
-                var randomDimension = Math.floor(Math.random() * 4) + 2;
-                newCircle.style.left = Math.floor(Math.random() * window.innerWidth)+"px";
-                newCircle.style.bottom = Math.floor(Math.random() * 50)+"px";
-                newCircle.style.width = randomDimension+"px";
-                newCircle.style.height = randomDimension+"px";
-                newCircle.classList.add('circle');
-                document.body.appendChild(newCircle);
-            }
-            for ( var i = 0; i < 50; i++ ) {
-                var newCircle = document.createElement('DIV');
-                var randomDimension = Math.floor(Math.random() * 4) + 2;
-                newCircle.style.right = Math.floor(Math.random() * 50)+"px";
-                newCircle.style.top = Math.floor(Math.random() * window.innerHeight)+"px";
-                newCircle.style.width = randomDimension+"px";
-                newCircle.style.height = randomDimension+"px";
-                newCircle.classList.add('circle');
-                document.body.appendChild(newCircle);
-            }
-            
-            var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
-            var firstDate = new Date();
-            $.getJSON("https://www.khanacademy.org/api/internal/user/profile?username=epophoney13&callback=?", function(data){
-                document.getElementById('pts').innerText = data.points.toLocaleString();
-                document.getElementById('strk').innerText = data.streakLength.toLocaleString();
-                document.getElementById('vid').innerText = data.countVideosCompleted.toLocaleString();
-                var secondDate = new Date(data.dateJoined);
-                var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
-                document.getElementById('mem').innerText = diffDays.toLocaleString();
-                document.getElementById('badgeShowcase').innerHTML = "";
-                for ( var i = 0; i < data.publicBadges.length; i++ ) {
-                    document.getElementById('badgeShowcase').innerHTML += "<div class='badge' title='"+data.publicBadges[i].translatedDescription+"'><a href='"+data.publicBadges[i].absoluteUrl+"' target='_blank'><img src='"+data.publicBadges[i].icons.small+"'/></a></div>";
-                }
-            });
-        </script>
-        <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+            <div class='article'>
+                <p>Here are the results from 10 BMS students:</p>
+                <p><b>1. </b>90 percent of students chose littering, while the other 10 percent chose mining.</p>
+                <p><b>2. </b>80 percent of students chose 4 out of 5, while the other 20 percent chose 5 out of 5.</p>
+                <p><b>3. </b>10 percent of students chose 5, 10 percent of students chose 6, 30 percent of students chose 7, 10 percent of students chose 8, 20 percent of students chose 9, and the remaining 20 percent chose 10 (out of 10).</p>
+                <p><b>4. </b>This question was evenly split in half, with 50 percent of students choosing Yes, and the other 50 percent choosing No.</p>
+                <p><b>5. </b>This is an open-ended question, so the responses varied. However most of them were about doing the 3Rs (Reuse, Reduce, and Recycle), and a few students mentioned about spreading awareness and joining organizations.</p>
+                <br>
+            </div>
+        </div>
+    </div>
+    <div class='scene article'>
+        <div class='sceneBg' style='background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Littering_in_Stockholm.jpg/330px-Littering_in_Stockholm.jpg)'></div>
+        <h2 style="margin-top:75px;"><i class='material-icons hoverIcon' onclick="changeScene(3)">arrow_backward</i> <strong>Littering</strong></h2>
+        <br><br>
+        <div style='float:left;width:150px;margin-right:50px;'>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Garbage_Black_sand_beach_Maui_Hawaii_Road_to_Hana_%2845690820912%29.jpg/330px-Garbage_Black_sand_beach_Maui_Hawaii_Road_to_Hana_%2845690820912%29.jpg" width="100%" />
+            <p class='label'>Trash on a beach in Hawaii</p>
+            <br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Microplastic.jpg/330px-Microplastic.jpg" width="100%" />
+            <p class='label'>A sample of small plastics called microplastics</p>
+            <br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Microplastics_in_the_surface_ocean%2C_OWID.svg/330px-Microplastics_in_the_surface_ocean%2C_OWID.svg.png" width="100%" />
+        </div>
+        <h3 style='margin:0;'>Introduction</h3>
+        <p>Litter is made of waste like plastic that we make that is not disposed at the correct location. For example, people who litter can throw trash on the street, forest, or ocean.</p>
+        <br>
+        <h3>What happens after we litter?</h3>
+        <p>The waste that we litter sometimes gets washed into the ocean. The waste in oceans tend to wash to 5 different locations, called garbage patches. However, out of these 5 garbage patches, the largest garbage patch is the Great pacific Gargabe Patch, which consists of over 1.8 trillion plastic pieces. Conbined, they weigh around 80 million kilograms. This patch could be very dangerous to the animals living near it.</p>
+    </div>
+
+    <div class='scene article'>
+        <div class='sceneBg' style='background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Siilinj%C3%A4rvi_S%C3%A4rkij%C3%A4rvi_pit.jpg/330px-Siilinj%C3%A4rvi_S%C3%A4rkij%C3%A4rvi_pit.jpg)'></div>
+        <h2 style="margin-top:75px;position:relative;"><i class='material-icons hoverIcon' onclick="changeScene(3)">arrow_backward</i> <strong>Mining</strong></h2>
+        <br><br>
+        <div style='float:left;width:150px;margin-right:50px;'>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Oil_platform_P-51_%28Brazil%29.jpg/150px-Oil_platform_P-51_%28Brazil%29.jpg" />
+            <p class='label'>An oil platform over the ocean, used for getting petroleum and natural gas</p>
+            <br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Malachite%2C_Zaire.jpg/330px-Malachite%2C_Zaire.jpg" width="100%" />
+            <p class='label'>A mineral called malachite obtained from mining</p>
+            <br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Pyhasalmi_mine.jpg" width="100%" />
+            <p class='label'>A modern metal mine in Finland</p>
+            <br>
+        </div>
+        <h3 style='margin:0;'>Introduction</h3>
+        <p>We mine to get many different types of minerals from deep in the soil, like metals, coal, gemstones, chalk, and limestone. There are a few methods of mining. The first method,  underground mining is very expensive to make but get better results. The second method, surface mining is cheaper but get worse results. The third method, placer mining separates minerals in the form of sediments from water in rivers, beaches, and more. The last method, in-situ mining is done by dissolving the mineral, then bringing it to the surface.</p>
+        <br>
+        <h3>Why is mining bad for the environment?</h3>
+        <p>Sometimes some accidents can happen, and various harmful or even toxic chemicals can wash away to rivers and contaminate it. This is very bad for the animals living there.</p>
+        <br>
+        </div>
+
+    <div class='scene article'>
+        <div class='sceneBg' style='background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Crop_spraying_near_St_Mary_Bourne_-_geograph.org.uk_-_392462.jpg/330px-Crop_spraying_near_St_Mary_Bourne_-_geograph.org.uk_-_392462.jpg)'></div>
+        <h2 style="margin-top:75px;position:relative;"><i class='material-icons hoverIcon' onclick="changeScene(3)">arrow_backward</i> <strong>Agriculture</strong></h2>
+        <br><br>
+        <div style='float:left;width:150px;margin-right:50px;'>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Siilinj%C3%A4rvi_S%C3%A4rkij%C3%A4rvi_pit.jpg/150px-Siilinj%C3%A4rvi_S%C3%A4rkij%C3%A4rvi_pit.jpg" width="100%" />
+            <p class='label' style='text-align:left;'>Mining the minerals to make fertilizers</p>
+            <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Krechty_kompostarna.jpg" width="100%" />
+            <p class='label'>Large amounts of fertilizer produced</p>
+            <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Fertilizer-Burn.jpg/150px-Fertilizer-Burn.jpg" width="100%" />
+            <p class='label' style='text-align:left;'>Fertilizer burns form when too much fertilizer is applied to the plant</p>
+        </div>
+        <h3 style='margin:0;'>Introduction</h3>
+        <p>Land pollution can be caused by agriculture in many ways. One example is the use of artificial fertilizers and pesticides. These pesticides contain chemicals that help the plant grow, but they also contain chemicals that are harmful or toxic to animals. These fertilizers can reach the ocean or river and harm the animals in it.</p>
+        <br>
+        <h3>How can fertilizers reach the ocean or river?</h3>
+        <p>Rain falls down from the sky into farms. These pesticides go inside the water and flow along with it. Over time, the water reaches the ocean, carrying the harmful fertilizer. Sometimes, these fertilizers can dissolve in the water, making it really hard to see. The fertilizers in the ocean can also make it unhealthy to drink.</p>
+    </div>
+    <div class='scene article'>
+        <div class='sceneBg' style='background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Bales_of_PET_bottles_stacked.jpg/330px-Bales_of_PET_bottles_stacked.jpg)'></div>
+        <h2 style="margin-top:75px;position:relative;"><i class='material-icons hoverIcon' onclick="changeScene(3)">arrow_backward</i> <strong>Plastic</strong></h2>
+        <br><br>
+        <div style='float:left;width:150px;margin-right:50px;'>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Microplastic_sample.jpg/150px-Microplastic_sample.jpg" />
+            <p class='label'>A sample of microplastics, the most common form of plastics in the ocean</p>
+            <br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Plastic_Pollution_in_Ghana.jpg/150px-Plastic_Pollution_in_Ghana.jpg" width="100%" />
+            <p class='label'>Plastic bags and bottles on a heach in Ghana</p>
+            <br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Oceanic_gyres.png" width="100%" />
+            <p class='label'>The 5 main garbage patches, each consisting of billions of pieces of waste, mainly plastic</p>
+            <br>
+        </div>
+        <h3 style='margin:0;'>Introduction</h3>
+        <p>When people litter, sometimes the waste can wash away to rivers and oceans. Now, this plastic waste is very dangerous to animals when swallowed. Over time, these plastics break into smaller pieces of plastics called microplastics. These microplastics are very small, usually less than 5 millimeters in length. This makes it easier for the animals to accidentaly eat or swallow the plastics when they are trying to eat other food and could die. Because of this, there could be a decline in marine population, decreasing the food supply in the world, which will be very dangerous for people.</p>
+        <br>
+        <h3>Why can this be dangerous for us?</h3>
+        <p>First, more marine creatures will die, leading to a food shortage crisis. Even though we get the fish, they still have microplastics in them, which are really hard to identify. These fish could end up in our stomach, and if we are not careful enough, we could also accidentally swallow these microplastics in the fishes. This could lead to many health problems.</p>
+        <br>
+    </div>
+
+    <div class='scene article'>
+        <div class='sceneBg' style='background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Sea_turtle_entangled_in_a_ghost_net.jpg/330px-Sea_turtle_entangled_in_a_ghost_net.jpg?20120428100726)'></div>
+        <h2 style="margin-top:75px;position:relative;"><i class='material-icons hoverIcon' onclick="changeScene(3)">arrow_backward</i> <strong>Sick animals</strong></h2>
+        <br><br>
+        <div style='float:left;width:150px;margin-right:50px;'>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Meganyctiphanes_norvegica2.jpg/150px-Meganyctiphanes_norvegica2.jpg" />
+            <p class='label'>A picture of krill, a food source for many animals living in the ocean</p>
+            <br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/0a/Microplastics_in_sediments.jpg" width="100%" />
+            <p class='label'>Little pieces of microplastics collected from rivers in Germany</p>
+            <br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Albatross_at_Midway_Atoll_Refuge_%288080507529%29.jpg/150px-Albatross_at_Midway_Atoll_Refuge_%288080507529%29.jpg?20130619205959" width="100%" />
+            <p class='label'>A picture of an albatross with lots of pieces of trash inside it</p>
+            <br>
+        </div>
+        <h3 style='margin:0;'>Introduction</h3>
+        <p>The plastic in the ocean can harm marine animals like fish and turtles. Sometimes the animals can swallow the plastic, or they can get stuck in it. There are over 250 million killograms of trash in the ocean, so it would be really easy for marine animals to accidentally eat these plastics, and the plastic won't ever run out, since people are still throwing waste into the ocean. </p>
+        <br>
+        <h3>Why do marine creatures eat plastic?</h3>
+        <p>There are 2 main reasons for this. First, some big pieces of plastic, like plastic bags can look like food. For example, a big plastic bag can look like a jellyfish. Turtles, who each jellyfish, can end up eating these plastic bags and get sick. The other reason is that waste that we produce can smell like krill over time. When krill consumes algae, it emits a chemical called dimethyl sulfide or DMS. However, when we throw away plastic, the plastic creates a perfect place for the algae to live in. As a result, the algae emits the dimethyl sulfide or DMS from the plastic bag and animals can mistakenly eat the plastic bag, thinking it is just krill.</p>
+        <br>
+    </div>
+    <div class='scene article'>
+        <div class='sceneBg' style='background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Soilcontam.JPG/330px-Soilcontam.JPG)'></div>
+        <h2 style="margin-top:75px;position:relative;"><i class='material-icons hoverIcon' onclick="changeScene(3)">arrow_backward</i> <strong>Polluted land</strong></h2>
+        <br><br>
+        <div style='float:left;width:150px;margin-right:50px;'>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Oshiwara_river.JPG/150px-Oshiwara_river.JPG" />
+            <p class='label'>A dirty river full of trash due to land pollution</p>
+            <br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b2/PH_scale_2.png" width="100%" />
+            <p class='label'>A pH scale used to measure the acidity or basicity of a chemical. According to Wikipedia, a neutral pH level for soil would be 6.6 to 7.3.</p>
+            <br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/A_boy_demonstrates_the_difference_between_the_clean_water_Oxfam_is_now_providing_and_the_dirty_water_from_the_river_Nile_in_Awerial_%2811978165045%29.jpg/786px-A_boy_demonstrates_the_difference_between_the_clean_water_Oxfam_is_now_providing_and_the_dirty_water_from_the_river_Nile_in_Awerial_%2811978165045%29.jpg?20140926205233" width="100%" />
+            <p class='label'>A comparison of clean water and dirty water</p>
+            <br>
+        </div>
+        <h3 style='margin:0;'>Introduction</h3>
+        <p>Some chemicals can pollute soil or water to make them unsuitable for plants and animals to live in. Sometimes, acid rain, ammonium in fertilizers, oxidation, and other processes can make the soil more acidic or basic. This can have some effects on plant growth. If the pH level is too high or too low, then there could be high concentrations of chemicals like lead, which can be toxic to plants.</p>
+        <br>
+        <h3>How to fix the acidity of soil?</h3>
+        <p>When the pH of soil is too acidic or too basic, farmers use a process called neutralization. This process is done by combining an acid with a base. They react to form neutral components. For example, when you mix hydrochloric acid (a strong acid) with sodium hydroxide (a strong base), they neutralize each other to form sodium chloride (common salt) and water. Farmers usually use limestone to neutralize acidic soil since it is slightly basic with a pH of around 7.5-8, while sometimes they can use sphagnum peat, which has a pH of around 3-4.5, for basic soil.</p>
+        <br>
+    </div>
+    <div class='scene game'>
+        <div class='gameHeader'>
+            <a href="javascript:changeScene(4);displayLevelA(0);"><i class='material-icons'>home</i></a>
+            <a>Levels</a>
+            <a>Progress</a>
+            <a>Settings</a>
+        </div>
+        <div style='padding:30px;' id='game1'>
+            <h2 style='margin:0;' id='titleA'></h2>
+            <div id='detailsA'>
+                <p></p>
+                <p></p>
+            </div>
+            <br>
+            <div id='blocksA' style='width:200px;height:200px;border:1px solid lightgrey;float:left;overflow-y:auto;overflow-x:hidden;'>
+            </div>
+            <div id='editorA' style='overflow:auto;height:200px;border:1px solid lightgrey;border-left:0;'>
+            </div>
+            <div style='width:100%;height:48px;border:1px solid lightgrey;border-top: 0;padding:10px;'>
+                <button id='runBtn' class='progBtn' style='position:static;' onclick="runJavascript()">Run Program</button>
+                <button class='progBtn' style='position:static;margin-left:5px;' onclick="viewJavascript()">View JavaScript</button>
+                <button class='progBtn' style='position:static;margin-left:5px;' onclick="document.getElementById('editorA').innerHTML='';">Clear Editor</button>
+            </div>
+            <div id='previewA' style='width:100%;height:270px;border:1px solid lightgrey;border-top: 0;'>
+            </div>
+        </div>
+        <div class='modal' id='modalWinston'>
+            <div class='body'>
+                <div id='modalMsgWinston'></div>
+            </div>
+        </div>
+    </div>
+    <div class='scene article'>
+        <div class='sceneBg' style='background-image:url(https://upload.wikimedia.org/wikipedia/commons/a/af/Reduce_Reuse_Recycle.jpg?20170803115553)'></div>
+        <h2 style="margin-top:75px;position:relative;"><i class='material-icons hoverIcon' onclick="changeScene(3)">arrow_backward</i> <strong>The 3Rs</strong></h2>
+        <br><br>
+        <div style='float:left;width:150px;margin-right:50px;'>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Gifts_for_Participant%27s_for_Wiki_Mrebawani_II_-_Tote_bag.jpg/150px-Gifts_for_Participant%27s_for_Wiki_Mrebawani_II_-_Tote_bag.jpg?20170505040804" />
+            <p class='label'>A cotton bag, a better alternative to plastic bags</p>
+            <br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/NEA_recycling_bins%2C_Orchard_Road.JPG/150px-NEA_recycling_bins%2C_Orchard_Road.JPG?20061103160146" width="100%" />
+            <p class='label'>Recycling bins are used to separate different types of trash</p>
+            <br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/More_Plastic_in_the_Ocean_than_Fish_Infographic.png" width="100%" />
+            <p class='label'>This picture predicts that there will be more trash than fish in the ocean by 2050, so we need to reduce, if not stop, the use of single-use plastic.</p>
+            <br>
+        </div>
+        <h3 style='margin:0;'>Introduction</h3>
+        <p>The 3Rs stand for Reuse, Reduce, and Recycle. First, reuse means to use something for more than once. For example, instead of using plastic bags once, you can use them again. Next, reduce means to use less of something. Instead of using 4 plastic bags a day, try to reduce it to only 1-2 plastic bags a week. Last, recycle is similar to reuse, except that you use items again for a different purpose. People crush used newspapers to make other things like books, magazines, and even new newspapers.</p>
+        <br>
+        <h3>What are the benefits?</h3>
+        <p>First, this would be better for the environment, as we throw less waste, so we will contribute less to land pollution. Because of that, we can start cleaning up land pollution faster than we can throw trash. Second, it would be cheaper for us. Nowadays, countries are forcing people to pay for plastic bags, so hopefully people will use less plastic bags. Alternatively, instead of using plastic bags, we can buy cotton bags. These bags last a long time.</p>
+        <br>
+    </div>
+
+    <div class='scene article'>
+        <div class='sceneBg' style='background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/NewLogoGET123.png/150px-NewLogoGET123.png)'></div>
+        <h2 style="margin-top:75px;position:relative;"><i class='material-icons hoverIcon' onclick="changeScene(3)">arrow_backward</i> <strong>Organizations</strong></h2>
+        <br><br>
+        <div style='float:left;width:150px;margin-right:50px;'>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/World_CleanUp_Day_Logo_-_no_date_copy.png/150px-World_CleanUp_Day_Logo_-_no_date_copy.png" />
+            <p class='label'>World Cleanup Day logo, an organization that cleans roads and rivers once a year</p>
+            <br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Creek_Water_Pollution.jpg/150px-Creek_Water_Pollution.jpg" width="100%" />
+            <p class='label'>Organizations clean these type of places with lots of trash</p>
+            <br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Sailors_clean_a_beach_in_Diego_Garcia..jpg/150px-Sailors_clean_a_beach_in_Diego_Garcia..jpg" width="100%" />
+            <p class='label'>People cleaning up plastic</p>
+            <br>
+        </div>
+        <h3 style='margin:0;'>Introduction</h3>
+        <p>Even though we do the 3Rs, it isn't enough to make any big change in the world. As a result, people have made organizations for a lot of people to work together to clean many places like rivers, streets, and forests. Although one person can't do much to stop land pollution, many people working together could have a big effect on land pollution. One of these organizations is World Cleanup Day.</p>
+        <br>
+        <h3>World Cleanup Day</h3>
+        <p>World Cleanup Day is a worldwide organization that is held for a day every year (specifically the third Saturday of each September). The event for 2022 will be held on 17 September. In 2021, World Cleanup Day was held on 18 September with 8.5 million people from 191 countries collecting over 33 thousand tons of waste.</p>
+        <br>
+    </div>
+    <div class='scene article'>
+        <div class='sceneBg' style='background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Team_Trees_circle_logo.svg/150px-Team_Trees_circle_logo.svg.png?20191102081616)'></div>
+        <h2 style="margin-top:75px;position:relative;"><i class='material-icons hoverIcon' onclick="changeScene(3)">arrow_backward</i> <strong>Spreading awareness</strong></h2>
+        <br><br>
+        <div style='float:left;width:150px;margin-right:50px;'>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/NASA_Website_Homepage_-_April_25%2C_2015.png/150px-NASA_Website_Homepage_-_April_25%2C_2015.png" />
+            <p class='label'>Websites, like this one, can be used to spread awareness and give information about a specific topic</p>
+            <br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Team_Trees_logo.svg/150px-Team_Trees_logo.svg.png" width="100%" />
+            <p class='label'>Team Trees is a fundraising campaign that aims to plant 20 million trees to reduce carbon dioxide in the air</p>
+            <br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Environmental_Care_2017_Indonesia_stamp.png/150px-Environmental_Care_2017_Indonesia_stamp.png" width="100%" />
+            <p class='label'>If you can't make a website, then you can make a poster that informs people about land pollution.</p>
+            <br>
+        </div>
+        <h3 style='margin:0;'>Introduction</h3>
+        <p>Even though organizations can have thousands of members, that is only a miniscule fraction of the people on Earth. Therefore, it is important for more people to know about land pollution. We can spread awareness to inform people about the dangers of land pollution, and what they can do. If everyone stops littering and throwing a lot of waste, then land pollution will eventually stop, and we can clean the remaining waste. The good news is, there are many ways that we can spread awareness. For example, a website (like this one) is used to give information online, because it can contain more information.</p>
+        <br>
+        <h3>Team Trees</h3>
+        <p>Team Trees is a fundraising campaign by MrBeast and Mark Rober, and aimed to plant 20 million trees. It worked by donating a certain amount of money (like 10 dollars) and then planting the amount of money that you give (in the previous case, 10 trees will be planted). It was a success, and by the end of 2020, over 23 million dollars were donated. However, some people said that it wouldn't do much as we are still emitting greenhouse gases at a very fast rate, but Team Trees spread awareness about land pollution to millions of people.</p>
+        <br>
+    </div>
+    <div class='scene'>
+    </div>
+    <div id='loader'>
+        <div class='bar bar1'></div>
+        <div class='bar bar2'></div>
+        <div class='bar bar3'></div>
+        <div class='bar bar4'></div>
+        <div class='bar bar5'></div>
+        <div class='bar bar6'></div>
+        <div class='bar bar7'></div>
+        <div class='bar bar8'></div>
+        <h2 class='loading'>Let's stop land pollution!<br><span style='font-size:16px;'>By Avner</span></h2>
+    </div>
     <script>
-        var thumbnailX;
-		
-		$.getJSON("https://www.khanacademy.org/api/internal/scratchpads/5401967359524864?callback=?", function(data){
-		    thumbnailX = data.revision.code;
-		});
-		
-        var save = function(){
-            window.top.postMessage(thumbnailX, "https://www.khanacademy.org/");
-        };
-        document.body.onkeydown = function(e) {
-            if (e.keyCode === 27) {
-                save();
+        /* Type writer after loading scene */
+        var i = 0;
+        var speed = 0;
+
+        function typeWriter(textId, txt, newSpeed) {
+            speed = newSpeed;
+            if (i < txt.length) {
+                document.getElementById(textId).innerHTML += txt.charAt(i);
+                i++;
+                setTimeout(function() {
+                    typeWriter(textId, txt, speed);
+                }, speed);
+            } else {
+                i = 0;
             }
+        }
+        /* Run function after load */
+        function runLoading() {
+            typeWriter('programmersHeading', 'Land Pollution', 75);
+            setTimeout(function() {
+                document.getElementById('programmersHeading').style.marginTop = "-125px";
+                document.getElementById('stuff1').style.display = "block";
+                setTimeout(function() {
+                    document.getElementById('menu').style.display = "block";
+                }, 500);
+            }, 75 * 'Land Pollution'.length + 600);
+        }
+        /* Arrays for CSS particle animation */
+        var colors = [{
+                scheme: ["green", "teal", "blue", "purple", "magenta"]
+            },
+            {
+                scheme: ["magenta", "orange", "indigo", "pink", "limegreen"]
+            },
+        ];
+        var animations = [
+            "circleAnimation1",
+            "circleAnimation2",
+            "noAnimation",
+        ];
+        var schemeIndex = Math.floor(Math.random() * colors.length);
+        /* Timing for changing background */
+        createBackground();
+        setInterval(function() {
+            document.getElementById('background1').style.opacity = "0";
+            schemeIndex = Math.floor(Math.random() * colors.length);
+            setTimeout(function() {
+                document.getElementById('background1').innerHTML = "";
+                document.getElementById('background1').style.opacity = "1";
+                createBackground();
+            }, 500);
+        }, 9000);
+        /* Function to loop particles for bg animation */
+        function createBackground() {
+            for (var i = 0; i < 100; i++) {
+                var newElement = document.createElement('DIV');
+                var dimensions = Math.floor(Math.random() * 25) + 5;
+                newElement.classList.add('circle');
+                newElement.style.backgroundColor = colors[schemeIndex].scheme[Math.floor(Math.random() * 5)];
+                newElement.style.animationName = animations[Math.floor(Math.random() * animations.length)];
+                newElement.style.animationDuration = Math.random() * 10 + 2 + "s";
+                newElement.style.top = Math.floor(Math.random() * 1000) - 100 + "px";
+                newElement.style.left = Math.floor(Math.random() * 600) - 100 + "px";
+                newElement.style.width = dimensions + "px";
+                newElement.style.height = dimensions + "px";
+                document.getElementById('background1').appendChild(newElement);
+            }
+        }
+
+        /* Scene changing function */
+
+        var scenes = document.getElementsByClassName('scene');
+        var current;
+
+        function changeScene(index) {
+            for (var i = 0; i < scenes.length; i++) {
+                scenes[i].style.display = 'none';
+            }
+            scenes[index].style.display = 'block';
+
+            current = scenes[index];
+        }
+
+        changeScene(0);
+
+        /* Animated scene changing function */
+
+        function sceneSpecial(index, color) {
+            if (color !== null) {
+                for (var i = 0; i < document.getElementById('loader').getElementsByClassName('bar').length; i++) {
+                    document.getElementById('loader').getElementsByClassName('bar')[i].style.backgroundColor = color;
+                }
+            }
+            document.getElementById('loader').style.display = "block";
+            current.style.transform = "scale(0)";
+            setTimeout(function() {
+                changeScene(index);
+                document.getElementById('loader').style.display = "none";
+                current.style.transform = "scale(1)";
+            }, 2500);
+        }
+
+        /* Variable to store cell for Winston to win */
+        var currentWinning = 0;
+        var currentMission = 0;
+        var latestMission = 0;
+
+        /* Display level function */
+        function displayLevelA(num) {
+            if (num === 5) {
+                changeScene(15);
+            } else {
+                currentMission = num;
+                if (currentMission > latestMission) {
+                    latestMission = currentMission;
+                }
+                document.getElementById('modalWinston').style.display = "none";
+                document.getElementById('editorA').innerHTML = "";
+                document.getElementById('titleA').innerHTML = winstonLevels[num].title;
+                document.getElementById('detailsA').innerHTML = winstonLevels[num].details;
+                document.getElementById('blocksA').innerHTML = winstonLevels[num].blocks;
+                for (var i = 0; i < document.getElementById('blocksA').getElementsByClassName('block').length; i++) {
+                    document.getElementById('blocksA').getElementsByClassName('block')[i].setAttribute("onclick", "addToEditor(this)");
+                }
+                document.getElementById('previewA').innerHTML = "";
+                for (var i = 0; i < winstonLevels[num].cells.length; i++) {
+                    document.getElementById('previewA').innerHTML += winstonCells[winstonLevels[num].cells[i]];
+                }
+                currentWinning = winstonLevels[num].winner;
+            }
+        }
+
+        /* VANILLA JS Drag and drop function */
+        function modDrag() {
+            var id_ = 'editorA';
+            var cols_ = document.querySelectorAll('#' + id_ + ' .block');
+            var dragSrcEl_ = null;
+            this.handleDragStart = function(e) {
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/html', this.innerHTML);
+                dragSrcEl_ = this;
+                this.classList.add('moving');
+            };
+            this.handleDragOver = function(e) {
+                if (e.preventDefault) {
+                    e.preventDefault();
+                }
+                e.dataTransfer.dropEffect = 'move';
+                return false;
+            };
+            this.handleDragEnter = function(e) {
+                this.classList.add('over');
+            };
+            this.handleDragLeave = function(e) {
+                this.classList.remove('over');
+            };
+            this.handleDrop = function(e) {
+                if (e.stopPropagation) {
+                    e.stopPropagation();
+                }
+                if (dragSrcEl_ != this) {
+                    dragSrcEl_.innerHTML = this.innerHTML;
+                    this.innerHTML = e.dataTransfer.getData('text/html');
+                    var count = this.querySelector('.count');
+                    var newCount = parseInt(count.getAttribute('data-col-moves')) + 1;
+                    count.setAttribute('data-col-moves', newCount);
+                    count.textContent = 'moves: ' + newCount;
+                }
+                return false;
+            };
+            this.handleDragEnd = function(e) {
+                [].forEach.call(cols_, function(col) {
+                    col.classList.remove('over');
+                    col.classList.remove('moving');
+                });
+            };
+            [].forEach.call(cols_, function(col) {
+                col.setAttribute('draggable', 'true');
+                col.addEventListener('dragstart', this.handleDragStart, false);
+                col.addEventListener('dragenter', this.handleDragEnter, false);
+                col.addEventListener('dragover', this.handleDragOver, false);
+                col.addEventListener('dragleave', this.handleDragLeave, false);
+                col.addEventListener('drop', this.handleDrop, false);
+                col.addEventListener('dragend', this.handleDragEnd, false);
+            });
+        }
+
+        var requestedLoop = null;
+
+        /* Add blocks to editor screen */
+        function addToEditor(elem) {
+            if (requestedLoop !== null) {
+                requestedLoop.getElementsByClassName('loopInside')[0].innerHTML += elem.innerText;
+                requestedLoop.classList.remove('focused');
+                requestedLoop = null;
+            } else {
+                if (elem.classList.contains("loop") === true) {
+                    document.getElementById('editorA').innerHTML += elem.outerHTML.replace("[x]", "<span class='loopCount'><input type='text' onkeyup=\"this.setAttribute('value', this.value);\" style='width:40px;'/></span>").replace("[y]", "<br><span class='loopInside'></span><br>");
+                } else if (elem.classList.contains("var") === true) {
+                    document.getElementById('editorA').innerHTML += elem.outerHTML.replace("[x]", "<span class='varName'><input type='text' onkeyup=\"this.setAttribute('value', this.value);\" style='width:100px;'/></span>").replace("[y]", "<span class='varContent'><input type='text' onkeyup=\"this.setAttribute('value', this.value);\" style='width:100px;'/></span>");
+                } else {
+                    document.getElementById('editorA').innerHTML += elem.outerHTML;
+                }
+
+                for (var i = 0; i < document.getElementById('editorA').getElementsByClassName('block').length; i++) {
+                    document.getElementById('editorA').getElementsByClassName('block')[i].setAttribute("onclick", "");
+                }
+                for (var i = 0; i < document.getElementById('editorA').getElementsByClassName('block').length; i++) {
+                    document.getElementById('editorA').getElementsByClassName('block')[i].onmousedown = function() {
+                        if (event.button === 2) {
+                            this.remove();
+                        }
+                    };
+                }
+                for (var i = 0; i < document.getElementById('editorA').getElementsByClassName('loop').length; i++) {
+                    document.getElementById('editorA').getElementsByClassName('loop')[i].onclick = function() {
+                        e = window.event || e;
+                        if (this === e.target) {
+                            requestForLoop(this);
+                        }
+                    }
+                }
+                modDrag();
+            }
+        }
+
+        function requestForLoop(elem) {
+            for (var i = 0; i < document.getElementById('editorA').getElementsByClassName('loop').length; i++) {
+                document.getElementById('editorA').getElementsByClassName('loop')[i].classList.remove('focused');
+            }
+            elem.classList.add('focused');
+            requestedLoop = elem;
+        }
+
+        document.getElementById('editorA').onclick = function() {
+            e = window.event || e;
+            if (this === e.target) {
+                blurLoopRequest();
+            }
+        }
+
+        function blurLoopRequest() {
+            for (var i = 0; i < document.getElementById('editorA').getElementsByClassName('loop').length; i++) {
+                document.getElementById('editorA').getElementsByClassName('loop')[i].classList.remove('focused');
+            }
+            requestedLoop = null;
+        }
+
+        /* Disallow right click when deleting blocks */
+
+        document.getElementById('game1').oncontextmenu = function() {
+            return false;
         };
+
+
+        /* Get javascript to show programmer */
+
+        function getJavascript() {
+            var javascript = "";
+            for (var i = 0; i < document.getElementById('editorA').getElementsByClassName('block').length; i++) {
+                var initial = "";
+                var initialB = "";
+                var initialB2 = "";
+                if (document.getElementById('editorA').getElementsByClassName('block')[i].classList.contains("loopCount") === true) {
+                    initial = document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByClassName('loopCount')[0].innerHTML;
+                    var value = document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByTagName('input')[0].value;
+                    document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByClassName('loopCount')[0].innerHTML = value;
+                }
+                if (document.getElementById('editorA').getElementsByClassName('block')[i].classList.contains("var") === true) {
+                    initialB = document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByClassName('varName')[0].innerHTML;
+                    initialB2 = document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByClassName('varContent')[0].innerHTML;
+                    document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByClassName('varName')[0].innerHTML = document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByTagName('input')[0].value;
+                    document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByClassName('varContent')[0].innerHTML = document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByTagName('input')[0].value;
+                }
+                javascript += document.getElementById('editorA').getElementsByClassName('block')[i].innerText + "<br>";
+                if (document.getElementById('editorA').getElementsByClassName('block')[i].classList.contains("loopCount") === true) {
+                    document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByClassName('loopCount')[0].innerHTML = initial;
+                }
+                if (document.getElementById('editorA').getElementsByClassName('block')[i].classList.contains("var") === true) {
+                    document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByClassName('varName')[0].innerHTML = initialB;
+                    document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByClassName('varContent')[0].innerHTML = initialB2;
+                }
+            }
+            return javascript;
+        }
+
+        /* Get and run special JS for computer */
+
+        var blockCount = 0;
+
+        function runJavascript() {
+            blockCount = document.getElementById('editorA').getElementsByClassName('block').length;
+            var valid = "true";
+            msg = 'Hmm... try again.'
+            var iExVar = 0;
+            for (var i = 0; i < document.getElementById('editorA').querySelectorAll('.block.loopCount').length; i++) {
+                if (document.getElementById('editorA').getElementsByClassName('loop')[i].getElementsByTagName('input')[0].value === null || document.getElementById('editorA').getElementsByClassName('loop')[i].getElementsByTagName('input')[0].value === "" || document.getElementById('editorA').getElementsByClassName('loop')[i].getElementsByTagName('input')[0].value === undefined) {
+                    valid = "false";
+                }
+            }
+            if (valid === "true") {
+                var javascript = "var currentWinner = '" + currentWinning + "';";
+                var scriptLength = 1000 * (document.getElementById('editorA').getElementsByClassName('block').length - document.getElementById('editorA').getElementsByClassName('var').length + 1);
+                for (var i = 0; i < document.getElementById('editorA').getElementsByClassName('block').length; i++) {
+                    var initial;
+                    var initialB = "";
+                    var initialB2 = "";
+                    if (document.getElementById('editorA').getElementsByClassName('block')[i].classList.contains("loopCount") === true) {
+                        initial = document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByClassName('loopCount')[0].innerHTML;
+                        var value = document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByTagName('input')[0].value;
+                        document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByClassName('loopCount')[0].innerHTML = value;
+                    }
+                    if (document.getElementById('editorA').getElementsByClassName('block')[i].classList.contains("var") === true) {
+                        initialB = document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByClassName('varName')[0].innerHTML;
+                        initialB2 = document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByClassName('varContent')[0].innerHTML;
+                        document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByClassName('varName')[0].innerHTML = document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByTagName('input')[0].value;
+                        document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByClassName('varContent')[0].innerHTML = document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByTagName('input')[0].value;
+                    } else {
+                        iExVar++;
+                    }
+                    if (document.getElementById('editorA').getElementsByClassName('block')[i].classList.contains("var") === false) {
+                        javascript += "setTimeout(function(){" + document.getElementById('editorA').getElementsByClassName('block')[i].innerText + "}, " + 1000 * iExVar + ");";
+                    } else {
+                        javascript += document.getElementById('editorA').getElementsByClassName('block')[i].innerText;
+                    }
+                    if (document.getElementById('editorA').getElementsByClassName('block')[i].classList.contains("loopCount") === true) {
+                        document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByClassName('loopCount')[0].innerHTML = initial;
+                    }
+                    if (document.getElementById('editorA').getElementsByClassName('block')[i].classList.contains("var") === true) {
+                        document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByClassName('varName')[0].innerHTML = initialB;
+                        document.getElementById('editorA').getElementsByClassName('block')[i].getElementsByClassName('varContent')[0].innerHTML = initialB2;
+                    }
+                }
+                javascript += "var endTimer = setTimeout(function(){endProgram()}, " + scriptLength + ");"
+                document.getElementById('runBtn').style.pointerEvents = "none";
+                var newScript = document.createElement('SCRIPT');
+                newScript.innerHTML = javascript;
+                document.body.appendChild(newScript);
+                newScript.remove();
+            } else {
+                msg = "No loop count given.";
+                endProgram();
+            }
+        }
+
+        /* Function to display getJavascript() results */
+
+        function viewJavascript() {
+            document.getElementById('modalMsgWinston').innerHTML = "<i class='material-icons' onclick=\"this.parentElement.parentElement.parentElement.style.display='none';\">close</i><code>function run() {<br>" + getJavascript() + "}</code>";
+            document.getElementById('modalWinston').style.display = 'block';
+        }
+
+        /* Current cell variables */
+
+        var activeCellX = 0;
+        var activeCellY = 0;
+
+        /* Function to place winston */
+
+        function setWinston(x, y) {
+            if (document.body.contains(document.getElementById('winston'))) {
+                document.getElementById('winston').remove();
+            }
+            activeCellX = x;
+            activeCellY = y;
+            if (document.getElementsByClassName('cell')[x + y * 8].classList.contains("death") === false) {
+                document.getElementsByClassName('cell')[x + y * 8].innerHTML += "<img id='winston' src='https://www.kasandbox.org/programming-images/creatures/Winston.png'/>";
+            } else {
+                msg = "You hit an obstacle!";
+                activeCellX = currentWinner - 1;
+                endProgram();
+            }
+        }
+
+        /* Variable containing modal mission message */
+
+        var msg = "Hmm... try again.";
+
+        /* Runs winston function with changed activeCells */
+
+        function moveLeft() {
+            if (document.body.contains(document.getElementById('winston'))) {
+                if (activeCellX > 0) {
+                    setWinston(activeCellX - 1, activeCellY);
+                } else {
+                    document.getElementById('winston').remove();
+                    msg = "You crashed into a wall!";
+                    activeCellX = currentWinner - 1;
+                    endProgram();
+                }
+            } else {
+                msg = "There is no winston!"
+                endProgram();
+            }
+        }
+
+        function moveRight() {
+            if (document.body.contains(document.getElementById('winston'))) {
+                if (activeCellX < 7) {
+                    setWinston(activeCellX + 1, activeCellY);
+                } else {
+                    document.getElementById('winston').remove();
+                    msg = "You crashed into a wall!";
+                    activeCellX = currentWinner - 1;
+                    endProgram();
+                }
+            } else {
+                msg = "There is no winston!"
+                endProgram();
+            }
+        }
+
+        function moveDown() {
+            if (document.body.contains(document.getElementById('winston'))) {
+                if (activeCellY < 3) {
+                    setWinston(activeCellX, activeCellY + 1);
+                } else {
+                    document.getElementById('winston').remove();
+                    msg = "You crashed into a wall!";
+                    activeCellX = currentWinner - 1;
+                    endProgram();
+                }
+            } else {
+                msg = "There is no winston!"
+                endProgram();
+            }
+        }
+
+        function moveUp() {
+            if (document.body.contains(document.getElementById('winston'))) {
+                if (activeCellY > 0) {
+                    setWinston(activeCellX, activeCellY - 1);
+                } else {
+                    document.getElementById('winston').remove();
+                    msg = "You crashed into a wall!";
+                    activeCellX = currentWinner - 1;
+                    endProgram();
+                }
+            } else {
+                msg = "There is no winston!"
+                endProgram();
+            }
+        }
+
+        /* End program function after timer or event */
+
+        function endProgram() {
+            clearTimeout(endTimer);
+            if (document.body.contains(document.getElementById('winston'))) {
+                document.getElementById('winston').remove();
+            }
+            if (parseInt(activeCellX + activeCellY * 8) == parseInt(currentWinner)) {
+                if (blockCount <= winstonLevels[currentMission].varLength) {
+                    document.getElementById('modalMsgWinston').innerHTML = "<h2>Great Job!</h2><p>You have brought Winston back home.</p><br><button class='normal' onclick=\"displayLevelA(" + (currentMission + 1) + ");this.parentElement.parentElement.parentElement.style.display='none';\">Next Level</div><button class='normal' onclick='exitMission(this)'>Exit Mission</div>"
+                    document.getElementById('modalWinston').style.display = 'block';
+                } else {
+                    document.getElementById('modalMsgWinston').innerHTML = "<h2>Great Job!</h2><p>But you didn't do it in the most efficient way. You used <b>" + blockCount + "</b> blocks instead of <b>" + winstonLevels[currentMission].varLength + "</b> blocks.</p><br><button class='normal' onclick=\"this.parentElement.parentElement.parentElement.style.display='none';displayLevelA(" + currentMission + ");\">Try Again</div><button class='normal' onclick='exitMission(this)'>Exit Mission</div>"
+                    document.getElementById('modalWinston').style.display = 'block';
+                }
+            } else {
+                document.getElementById('modalMsgWinston').innerHTML = "<h2>" + msg + "</h2><p>Apparently, Winston didn't make it home.</p><br><button class='normal' onclick=\"this.parentElement.parentElement.parentElement.style.display='none';displayLevelA(" + currentMission + ");\">Try Again</div><button class='normal' onclick='exitMission(this)'>Exit Mission</div>";
+                document.getElementById('modalWinston').style.display = 'block';
+            }
+            document.getElementById('runBtn').style.pointerEvents = "auto";
+            msg = "Hmm... try again.";
+        }
+
+        /* Exit mission function */
+
+        function exitMission(elem) {
+            changeScene(4);
+            displayLevelA(0);
+        }
+
+        /*Loading functions */
+        changeScene(0);
+        document.body.onload = function() {
+            setTimeout(function() {
+                changeScene(1);
+                runLoading();
+            }, 4000);
+        };
+        displayLevelA(0);
     </script>
-    </body>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+    <script>
+    /* CREDIT TO BLUEBIRD FOR THE AMAZING SAVE FUNCTION */
+    var save = function(){
+            document.body.innerHTML = document.getElementById('saveScrn').innerHTML;
+            setTimeout(function(){
+            html2canvas(document.body,{
+                onrendered: function(canvas) {
+                    b64Img = canvas.toDataURL();
+                    window.top.postMessage(b64Img, "https://www.khanacademy.org/");
+                },
+                allowTaint : false,
+                useCORS: true,
+                width:window.innerWidth,
+                height:window.innerWidth
+            });
+            }, 500);
+    };
+    document.body.onkeydown = function(e) {
+        if (e.keyCode === 27) {
+            save();
+        }
+    };
+    </script>
+</body>
+
 </html>
